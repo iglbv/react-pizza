@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 2,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 3,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 4,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 5,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 6,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 7,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 8,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  },
+  {
+    "id": 9,
+    "imageUrl": "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
+    "title": "Чизбургер-пицца",
+    "price": 395,
+    "types": ["тонкое", "традиционное"],
+    "sizes": [26, 30, 40]
+  }
+]
