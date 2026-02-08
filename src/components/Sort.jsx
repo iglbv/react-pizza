@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Sort = () => {
+  const sortCategories = ["популярности", "цене", "алфавиту"];
+
+  const [activeSortCategory, setActiveSortCategory] = useState(0);
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -17,13 +21,19 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span>{sortCategories[activeSortCategory]}</span>
       </div>
       <div className="sort__popup">
         <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
+          {sortCategories.map((category, index) => (
+            <li
+              key={index}
+              className={index === activeSortCategory ? "active" : ""}
+              onClick={() => setActiveSortCategory(index)}
+            >
+              {category}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

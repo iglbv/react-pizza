@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const PizzaBlock = ({
   imageUrl,
@@ -6,10 +6,15 @@ const PizzaBlock = ({
   types = ["тонкое", "традиционное"],
   sizes = [26, 30, 40],
   price,
-  activeType = 0,
-  activeSize = 0,
-  addedCount = 0,
 }) => {
+  const [pizzaCount, setPizzaCount] = useState(0);
+  const [activeType, setActiveType] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
+
+  const handleAddToCart = () => {
+    setPizzaCount(pizzaCount + 1);
+  };
+
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
@@ -17,14 +22,22 @@ const PizzaBlock = ({
       <div className="pizza-block__selector">
         <ul>
           {types.map((type, index) => (
-            <li key={type} className={index === activeType ? "active" : ""}>
+            <li
+              key={type}
+              className={index === activeType ? "active" : ""}
+              onClick={() => setActiveType(index)}
+            >
               {type}
             </li>
           ))}
         </ul>
         <ul>
           {sizes.map((size, index) => (
-            <li key={size} className={index === activeSize ? "active" : ""}>
+            <li
+              key={size}
+              className={index === activeSize ? "active" : ""}
+              onClick={() => setActiveSize(index)}
+            >
               {size} см.
             </li>
           ))}
@@ -32,7 +45,10 @@ const PizzaBlock = ({
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <button
+          className="button button--outline button--add"
+          onClick={handleAddToCart}
+        >
           <svg
             width="12"
             height="12"
@@ -46,8 +62,8 @@ const PizzaBlock = ({
             />
           </svg>
           <span>Добавить</span>
-          {addedCount > 0 && <i>{addedCount}</i>}
-        </div>
+          {pizzaCount > 0 && <i>{pizzaCount}</i>}
+        </button>
       </div>
     </div>
   );
