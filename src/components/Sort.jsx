@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-const Sort = () => {
-  const sortCategories = ["популярности", "цене", "алфавиту"];
+const sortCategories = ["популярности", "цене", "алфавиту"];
 
+const Sort = () => {
   const [activeSortCategory, setActiveSortCategory] = useState(0);
 
   return (
@@ -27,7 +27,7 @@ const Sort = () => {
         <ul>
           {sortCategories.map((category, index) => (
             <li
-              key={index}
+              key={category}
               className={index === activeSortCategory ? "active" : ""}
               onClick={() => setActiveSortCategory(index)}
             >
