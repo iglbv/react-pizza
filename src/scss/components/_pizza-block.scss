@@ -1,5 +1,4 @@
-@import '../variables';
-
+@use "../variables" as *;
 
 .pizza-block {
   width: 280px;

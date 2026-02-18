@@ -1,5 +1,5 @@
-@import '../variables';
-
+@use "../variables" as *;
+@use "sass:color";
 
 .categories {
   ul {
@@ -16,11 +16,11 @@
       @include noselect();
 
       &:hover {
-        background-color: darken(#f9f9f9, 2%);
+        background-color: color.scale(#f9f9f9, $lightness: -2%);
       }
 
       &:active {
-        background-color: darken(#f9f9f9, 5%);
+        background-color: color.scale(#f9f9f9, $lightness: -5%);
       }
 
       &.active {
