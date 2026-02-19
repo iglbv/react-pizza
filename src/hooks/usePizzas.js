@@ -16,6 +16,7 @@ export const usePizzas = () => {
         );
         setPizzas(response.data);
         setPizzaError(null);
+        window.scrollTo(0, 0);
       } catch (error) {
         setPizzaError(error.message);
         console.error(error);

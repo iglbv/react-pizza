@@ -8,9 +8,7 @@ function App() {
     <div className="wrapper">
       <Header />
       <div className="content">
-        <div className="container">
-          <AppRouter />
-        </div>
+        <AppRouter />
       </div>
     </div>
   );
