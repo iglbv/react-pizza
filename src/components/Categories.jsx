@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const categories = [
   "Все",
@@ -9,9 +9,7 @@ const categories = [
   "Закрытые",
 ];
 
-const Categories = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
-
+const Categories = ({ activeCategory, onChangeCategory }) => {
   return (
     <div className="categories">
       <ul>
@@ -19,7 +17,7 @@ const Categories = () => {
           <li
             key={index}
             className={index === activeCategory ? "active" : ""}
-            onClick={() => setActiveCategory(index)}
+            onClick={() => onChangeCategory(index)}
           >
             {category}
           </li>
