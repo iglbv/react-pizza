@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const usePizzas = (category, sortType, sortOrder, searchValue) => {
+export const usePizzas = (
+  category,
+  sortType,
+  sortOrder,
+  searchValue,
+  page = 1,
+  limit = 5,
+) => {
   const [pizzas, setPizzas] = useState([]);
   const [isPizzasLoading, setLoading] = useState(true);
   const [pizzaError, setPizzaError] = useState(null);
@@ -12,7 +19,10 @@ export const usePizzas = (category, sortType, sortOrder, searchValue) => {
       setLoading(true);
 
       try {
-        const params = {};
+        const params = {
+          page: page,
+          limit: limit,
+        };
 
         if (category !== 0) {
           params.category = category;
@@ -58,7 +68,7 @@ export const usePizzas = (category, sortType, sortOrder, searchValue) => {
     };
 
     fetchPizzas();
-  }, [category, sortType, sortOrder, searchValue]);
+  }, [category, sortType, sortOrder, searchValue, page, limit]);
 
   return { pizzas, isPizzasLoading, pizzaError, isNotFound };
 };

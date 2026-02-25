@@ -5,18 +5,21 @@ import Sort from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import { usePizzas } from "../hooks/usePizzas";
 import Search from "../components/Search";
+import Pagination from "../components/Pagination";
 
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [activeSortType, setActiveSortType] = useState("rating");
   const [sortOrder, setSortOrder] = useState("asc");
   const [searchValue, setSearchValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { pizzas, isPizzasLoading, pizzaError, isNotFound } = usePizzas(
     activeCategory,
     activeSortType,
     sortOrder,
     searchValue,
+    currentPage,
   );
 
   const handleSortChange = (sortType) => {
@@ -61,6 +64,10 @@ const Home = () => {
           <PizzaBlock key={pizza.id} {...pizza} />
         ))}
       </div>
+      <Pagination
+        onChangePage={(number) => setCurrentPage(number)}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
