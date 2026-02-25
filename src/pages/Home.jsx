@@ -4,16 +4,19 @@ import PizzaBlock from "../components/PizzaBlock";
 import Sort from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import { usePizzas } from "../hooks/usePizzas";
+import Search from "../components/Search";
 
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [activeSortType, setActiveSortType] = useState("rating");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [searchValue, setSearchValue] = useState("");
 
   const { pizzas, isPizzasLoading, pizzaError, isNotFound } = usePizzas(
     activeCategory,
     activeSortType,
     sortOrder,
+    searchValue,
   );
 
   const handleSortChange = (sortType) => {
@@ -32,6 +35,7 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
+        <Search value={searchValue} onChange={setSearchValue} />
         <Categories
           activeCategory={activeCategory}
           onChangeCategory={setActiveCategory}

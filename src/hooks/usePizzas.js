@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const usePizzas = (category, sortType, sortOrder) => {
+export const usePizzas = (category, sortType, sortOrder, searchValue) => {
   const [pizzas, setPizzas] = useState([]);
   const [isPizzasLoading, setLoading] = useState(true);
   const [pizzaError, setPizzaError] = useState(null);
@@ -16,6 +16,10 @@ export const usePizzas = (category, sortType, sortOrder) => {
 
         if (category !== 0) {
           params.category = category;
+        }
+
+        if (searchValue) {
+          params.search = searchValue;
         }
 
         switch (sortType) {
@@ -54,7 +58,7 @@ export const usePizzas = (category, sortType, sortOrder) => {
     };
 
     fetchPizzas();
-  }, [category, sortType, sortOrder]);
+  }, [category, sortType, sortOrder, searchValue]);
 
   return { pizzas, isPizzasLoading, pizzaError, isNotFound };
 };
