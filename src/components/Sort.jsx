@@ -1,4 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectSortType,
+  selectSortOrder,
+  setSortType,
+  toggleSortOrder,
+} from "../redux/slices/filtersSlice";
 
 const sortCategories = [
   { name: "популярности", type: "rating" },
@@ -6,17 +13,25 @@ const sortCategories = [
   { name: "алфавиту", type: "title" },
 ];
 
-const Sort = ({ activeSortType, sortOrder, onChangeSort, onToggleOrder }) => {
+const Sort = () => {
+  const dispatch = useDispatch();
+  const sortType = useSelector(selectSortType);
+  const sortOrder = useSelector(selectSortOrder);
+
   const [isOpen, setIsOpen] = useState(false);
   const sortRef = useRef(null);
 
-  const activeSortName = sortCategories.find(
-    (obj) => obj.type === activeSortType,
-  ).name;
+  const activeSortName =
+    sortCategories.find((obj) => obj.type === sortType)?.name || "популярности";
 
   const handleOrderClick = (e) => {
     e.stopPropagation();
-    onToggleOrder();
+    dispatch(toggleSortOrder());
+  };
+
+  const handleSortChange = (type) => {
+    dispatch(setSortType(type));
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -79,8 +94,8 @@ const Sort = ({ activeSortType, sortOrder, onChangeSort, onToggleOrder }) => {
             {sortCategories.map((obj) => (
               <li
                 key={obj.type}
-                className={obj.type === activeSortType ? "active" : ""}
-                onClick={() => onChangeSort(obj.type)}
+                className={obj.type === sortType ? "active" : ""}
+                onClick={() => handleSortChange(obj.type)}
               >
                 {obj.name}
               </li>

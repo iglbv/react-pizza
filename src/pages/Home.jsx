@@ -1,5 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import Categories from "../components/Categories";
+import { selectActiveCategoryIndex } from "../redux/slices/categoriesSlice";
+import {
+  selectSortType,
+  selectSortOrder,
+  selectSearchValue,
+  selectCurrentPage,
+} from "../redux/slices/filtersSlice";
 import PizzaBlock from "../components/PizzaBlock";
 import Sort from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
@@ -8,47 +16,26 @@ import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
 const Home = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeSortType, setActiveSortType] = useState("rating");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [searchValue, setSearchValue] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const activeCategory = useSelector(selectActiveCategoryIndex);
+  const sortType = useSelector(selectSortType);
+  const sortOrder = useSelector(selectSortOrder);
+  const searchValue = useSelector(selectSearchValue);
+  const currentPage = useSelector(selectCurrentPage);
 
   const { pizzas, isPizzasLoading, pizzaError, isNotFound } = usePizzas(
     activeCategory,
-    activeSortType,
+    sortType,
     sortOrder,
     searchValue,
     currentPage,
   );
 
-  const handleSortChange = (sortType) => {
-    if (sortType === activeSortType) {
-      setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-    } else {
-      setActiveSortType(sortType);
-      setSortOrder("asc");
-    }
-  };
-
-  const handleToggleOrder = () => {
-    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-  };
-
   return (
     <div className="container">
       <div className="content__top">
-        <Search value={searchValue} onChange={setSearchValue} />
-        <Categories
-          activeCategory={activeCategory}
-          onChangeCategory={setActiveCategory}
-        />
-        <Sort
-          activeSortType={activeSortType}
-          sortOrder={sortOrder}
-          onChangeSort={handleSortChange}
-          onToggleOrder={handleToggleOrder}
-        />
+        <Search />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
 
@@ -64,10 +51,7 @@ const Home = () => {
           <PizzaBlock key={pizza.id} {...pizza} />
         ))}
       </div>
-      <Pagination
-        onChangePage={(number) => setCurrentPage(number)}
-        currentPage={currentPage}
-      />
+      <Pagination />
     </div>
   );
 };
