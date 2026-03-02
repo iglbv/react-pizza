@@ -20,30 +20,18 @@ export const usePizzas = (
 
       try {
         const params = {
-          page: page,
-          limit: limit,
+          page,
+          limit,
+          ...(category !== 0 && { category }),
+          ...(searchValue && { search: searchValue }),
+          sortBy:
+            sortType === "price"
+              ? "price"
+              : sortType === "name"
+                ? "name"
+                : "rating",
+          order: sortOrder,
         };
-
-        if (category !== 0) {
-          params.category = category;
-        }
-
-        if (searchValue) {
-          params.search = searchValue;
-        }
-
-        switch (sortType) {
-          case "price":
-            params.sortBy = "price";
-            break;
-          case "name":
-            params.sortBy = "name";
-            break;
-          default:
-            params.sortBy = "rating";
-        }
-
-        params.order = sortOrder;
 
         const response = await axios.get(
           "https://69932cb78f29113acd403e62.mockapi.io/items",

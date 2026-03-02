@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export const categoriesSlice = createSlice({
-  name: "categoires",
+  name: "categories",
   initialState,
   reducers: {
     setActiveCategory: (state, action) => {

@@ -11,12 +11,16 @@ const Pagination = () => {
   const dispatch = useDispatch();
   const currentPage = useSelector(selectCurrentPage);
 
+  const handlePageChange = (e) => {
+    dispatch(setCurrentPage(e.selected + 1));
+  };
+
   return (
     <ReactPaginate
       className={styles.root}
       breakLabel="..."
       nextLabel=">"
-      onPageChange={(event) => dispatch(setCurrentPage(event.selected + 1))}
+      onPageChange={handlePageChange}
       pageRangeDisplayed={5}
       pageCount={2}
       previousLabel="<"
