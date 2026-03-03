@@ -19,6 +19,14 @@ export const categoriesSlice = createSlice({
     setActiveCategory: (state, action) => {
       state.activeCategoryIndex = action.payload;
     },
+
+    setCategories: (state, action) => {
+      state.activeCategoryIndex = Number(action.payload.activeCategoryIndex);
+    },
+
+    resetCategories: (state) => {
+      state.activeCategoryIndex = 0;
+    },
   },
 });
 
@@ -26,5 +34,6 @@ export const selectActiveCategoryIndex = (state) =>
   state.categories.activeCategoryIndex;
 export const selectCategories = (state) => state.categories.categories;
 
-export const { setActiveCategory } = categoriesSlice.actions;
+export const { setActiveCategory, setCategories, resetCategories } =
+  categoriesSlice.actions;
 export default categoriesSlice.reducer;
