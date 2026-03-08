@@ -1,12 +1,28 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addPizza } from "../../redux/slices/cartSlice";
 
-const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
+const PizzaBlock = ({ id, imageUrl, title, types, sizes, price }) => {
+  const typeNames = ["тонкое", "традиционное"];
+  const sizeNames = sizes.map((size) => `${size} см`);
+
   const [pizzaCount, setPizzaCount] = useState(0);
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
+  const dispatch = useDispatch();
+
   const handleAddToCart = () => {
     setPizzaCount(pizzaCount + 1);
+    const pizzaItem = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: sizeNames[activeSize],
+    };
+    dispatch(addPizza(pizzaItem));
   };
 
   return (
@@ -16,13 +32,13 @@ const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
         <h4 className="pizza-block__title">{title}</h4>
         <div className="pizza-block__selector">
           <ul>
-            {types.map((type, index) => (
+            {types.map((typeValue, index) => (
               <li
-                key={type}
+                key={typeValue}
                 className={index === activeType ? "active" : ""}
                 onClick={() => setActiveType(index)}
               >
-                {type}
+                {typeNames[typeValue]}
               </li>
             ))}
           </ul>
