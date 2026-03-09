@@ -1,17 +1,25 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import {
+  selectTotalCount,
+  selectTotalPrice,
+} from "../../redux/slices/cartSlice";
 
 const CartFooter = () => {
+  const totalCount = useSelector(selectTotalCount);
+  const totalPrice = useSelector(selectTotalPrice);
+
   return (
     <div className="cart__bottom">
       <div className="cart__bottom-details">
         <span>
           {" "}
-          Всего пицц: <b>3 шт.</b>{" "}
+          Всего пицц: <b>{totalCount} шт.</b>{" "}
         </span>
         <span>
           {" "}
-          Сумма заказа: <b>900 ₽</b>{" "}
+          Сумма заказа: <b>{totalPrice} ₽</b>{" "}
         </span>
       </div>
       <div className="cart__bottom-buttons">

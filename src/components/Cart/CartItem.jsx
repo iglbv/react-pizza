@@ -1,17 +1,63 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  addPizza,
+  minusPizza,
+  removePizza,
+} from "../../redux/slices/cartSlice";
 
-const CartItem = ({ imageUrl, name, description, price, count }) => {
+const CartItem = ({ id, imageUrl, title, type, size, price, count }) => {
+  const dispatch = useDispatch();
+
+  const description = type && size ? `${type} тесто, ${size}` : "";
+
+  const handleIncrement = () => {
+    dispatch(
+      addPizza({
+        id,
+        imageUrl,
+        title,
+        type,
+        size,
+        price,
+      }),
+    );
+  };
+
+  const handleDecrement = () => {
+    dispatch(
+      minusPizza({
+        id,
+        type,
+        size,
+      }),
+    );
+  };
+
+  const handleRemovePizza = () => {
+    dispatch(
+      removePizza({
+        id,
+        type,
+        size,
+      }),
+    );
+  };
+
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img className="pizza-block__image" src={imageUrl} alt={name} />
+        <img className="pizza-block__image" src={imageUrl} alt={title} />
       </div>
       <div className="cart__item-info">
-        <h3>{name}</h3>
+        <h3>{title}</h3>
         <p>{description}</p>
       </div>
       <div className="cart__item-count">
-        <div className="button button--outline button--circle cart__item-count-minus">
+        <button
+          className="button button--outline button--circle cart__item-count-minus"
+          onClick={handleDecrement}
+        >
           <svg
             width="10"
             height="10"
@@ -28,9 +74,12 @@ const CartItem = ({ imageUrl, name, description, price, count }) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div className="button button--outline button--circle cart__item-count-plus">
+        <button
+          className="button button--outline button--circle cart__item-count-plus"
+          onClick={handleIncrement}
+        >
           <svg
             width="10"
             height="10"
@@ -47,13 +96,16 @@ const CartItem = ({ imageUrl, name, description, price, count }) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
-        <b>{price}</b>
+        <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div className="button button--outline button--circle">
+        <button
+          className="button button--outline button--circle"
+          onClick={handleRemovePizza}
+        >
           <svg
             width="10"
             height="10"
@@ -70,7 +122,7 @@ const CartItem = ({ imageUrl, name, description, price, count }) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
     </div>
   );

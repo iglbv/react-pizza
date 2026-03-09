@@ -1,6 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { clearPizza } from "../../redux/slices/cartSlice";
 
 const CartHeader = () => {
+  const dispatch = useDispatch();
+
+  const handleClearCart = () => {
+    if (window.confirm("Очистить корзину?")) {
+      dispatch(clearPizza());
+    }
+  };
+
   return (
     <div className="cart__top">
       <h2 className="content__title">
@@ -35,7 +45,11 @@ const CartHeader = () => {
         </svg>
         Корзина
       </h2>
-      <div className="cart__clear">
+      <button
+        className="cart__clear"
+        onClick={handleClearCart}
+        aria-label="Очистить корзину"
+      >
         <svg
           width="20"
           height="20"
@@ -74,7 +88,7 @@ const CartHeader = () => {
         </svg>
 
         <span>Очистить корзину</span>
-      </div>
+      </button>
     </div>
   );
 };

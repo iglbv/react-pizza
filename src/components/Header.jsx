@@ -2,13 +2,11 @@ import React from "react";
 import pizzaLogo from "../assets/img/pizza-logo.svg";
 import { Link } from "react-router";
 import { useSelector } from "react-redux";
-import { selectTotalPrice, selectPizzaItems } from "../redux/slices/cartSlice";
+import { selectTotalPrice, selectTotalCount } from "../redux/slices/cartSlice";
 
 const Header = () => {
   const totalPrice = useSelector(selectTotalPrice);
-  const pizzaItems = useSelector(selectPizzaItems);
-
-  const totalCount = pizzaItems.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = useSelector(selectTotalCount);
 
   return (
     <div className="header">

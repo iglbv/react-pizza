@@ -10,7 +10,12 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addPizza(state, action) {
-      const findItem = state.pizzas.find((obj) => obj.id === action.payload.id);
+      const findItem = state.pizzas.find(
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size,
+      );
 
       if (findItem) {
         findItem.count++;
@@ -25,17 +30,57 @@ export const cartSlice = createSlice({
         return obj.price * obj.count + sum;
       }, 0);
     },
+
     removePizza(state, action) {
-      state.pizzas.filter((obj) => obj.id !== action.payload);
+      state.pizzas = state.pizzas.filter(
+        (obj) =>
+          !(
+            obj.id === action.payload.id &&
+            obj.type === action.payload.type &&
+            obj.size === action.payload.size
+          ),
+      );
+
+      state.totalPrice = state.pizzas.reduce((sum, obj) => {
+        return obj.price * obj.count + sum;
+      }, 0);
     },
+
+    minusPizza(state, action) {
+      const findItem = state.pizzas.find(
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size,
+      );
+
+      if (findItem) {
+        if (findItem.count > 1) {
+          findItem.count--;
+        } else {
+          state.pizzas = state.pizzas.filter(
+            (obj) => obj.id !== action.payload,
+          );
+        }
+      }
+
+      state.totalPrice = state.pizzas.reduce((sum, obj) => {
+        return obj.price * obj.count + sum;
+      }, 0);
+    },
+
     clearPizza(state, action) {
       state.pizzas = [];
+      state.totalPrice = 0;
     },
   },
 });
 
-export const selectTotalPrice = (state) => state.cart.totalPrice;
 export const selectPizzaItems = (state) => state.cart.pizzas;
+export const selectTotalPrice = (state) => state.cart.totalPrice;
+export const selectTotalCount = (state) =>
+  state.cart.pizzas.reduce((sum, item) => sum + item.count, 0);
 
-export const { addPizza, removePizza, clearPizza } = cartSlice.actions;
+export const { addPizza, removePizza, minusPizza, clearPizza } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -2,52 +2,22 @@ import React from "react";
 import CartHeader from "../components/Cart/CartHeader";
 import CartItemsList from "../components/Cart/CartItemsList";
 import CartFooter from "../components/Cart/CartFooter";
-
-const cartItems = [
-  {
-    id: 0,
-    imageUrl:
-      "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Сырный цыпленок",
-    description: "тонкое тесто, 26 см",
-    price: 770,
-    count: 2,
-  },
-  {
-    id: 1,
-    imageUrl:
-      "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Сырный цыпленок",
-    description: "тонкое тесто, 26 см",
-    price: 770,
-    count: 2,
-  },
-  {
-    id: 2,
-    imageUrl:
-      "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Сырный цыпленок",
-    description: "тонкое тесто, 26 см",
-    price: 770,
-    count: 2,
-  },
-  {
-    id: 3,
-    imageUrl:
-      "https://cdn.dodostatic.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Сырный цыпленок",
-    description: "тонкое тесто, 26 см",
-    price: 770,
-    count: 2,
-  },
-];
+import { useSelector } from "react-redux";
+import { selectPizzaItems } from "../redux/slices/cartSlice";
+import CartEmpty from "../components/Cart/CartEmpty";
 
 const Cart = () => {
+  const pizzaItems = useSelector(selectPizzaItems);
+
+  if (!pizzaItems.length) {
+    return <CartEmpty />;
+  }
+
   return (
     <div className="container container--cart">
       <div className="cart">
         <CartHeader />
-        <CartItemsList items={cartItems} />
+        <CartItemsList items={pizzaItems} />
         <CartFooter />
       </div>
     </div>
