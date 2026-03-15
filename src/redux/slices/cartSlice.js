@@ -59,7 +59,12 @@ export const cartSlice = createSlice({
           findItem.count--;
         } else {
           state.pizzas = state.pizzas.filter(
-            (obj) => obj.id !== action.payload,
+            (obj) =>
+              !(
+                obj.id === action.payload.id &&
+                obj.type === action.payload.type &&
+                obj.size === action.payload.size
+              ),
           );
         }
       }
@@ -69,7 +74,7 @@ export const cartSlice = createSlice({
       }, 0);
     },
 
-    clearPizza(state, action) {
+    clearPizza(state) {
       state.pizzas = [];
       state.totalPrice = 0;
     },
