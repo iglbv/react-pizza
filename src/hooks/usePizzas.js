@@ -1,10 +1,14 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
 import qs from "qs";
 import { useNavigate, useSearchParams } from "react-router";
 import { setFilters } from "../redux/slices/filtersSlice";
 import { setCategories } from "../redux/slices/categoriesSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectPizzaCatalog,
+  selectPizzaStatus,
+  fetchPizzas,
+} from "../redux/slices/pizzaSlice";
 
 export const usePizzas = (
   initialCategory,
@@ -14,11 +18,12 @@ export const usePizzas = (
   initialPage = 1,
   limit = 5,
 ) => {
-  const [pizzas, setPizzas] = useState([]);
-  const [isPizzasLoading, setLoading] = useState(true);
-  const [pizzaError, setPizzaError] = useState(null);
+  const pizzas = useSelector(selectPizzaCatalog);
+  const pizzaStatus = useSelector(selectPizzaStatus);
+
   const [isNotFound, setIsNotFound] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [pizzaError, setPizzaError] = useState(null);
 
   const isFirstRender = useRef(true);
   const isUpdatingFromURL = useRef(false);
@@ -121,9 +126,7 @@ export const usePizzas = (
   useEffect(() => {
     if (!isInitialized) return;
 
-    const fetchPizzas = async () => {
-      setLoading(true);
-
+    const loadPizzas = async () => {
       try {
         const params = {
           page: currentValues.page,
@@ -143,59 +146,74 @@ export const usePizzas = (
           order: currentValues.sortOrder,
         };
 
-        const response = await axios.get(
-          "https://69932cb78f29113acd403e62.mockapi.io/items",
-          { params },
-        );
+        const resultAction = await dispatch(fetchPizzas({ params }));
 
-        isUpdatingFromURL.current = true;
+        if (fetchPizzas.fulfilled.match(resultAction)) {
+          setPizzaError(null);
+          setIsNotFound(false);
 
-        const queryParams = {
-          ...(currentValues.page !== 1 && { currentPage: currentValues.page }),
-          ...(currentValues.category !== 0 && {
-            category: currentValues.category,
-          }),
-          ...(currentValues.sortType !== "rating" && {
-            sortBy: currentValues.sortType,
-          }),
-          ...(currentValues.sortOrder !== "asc" && {
-            order: currentValues.sortOrder,
-          }),
-          ...(currentValues.searchValue && {
-            search: currentValues.searchValue,
-          }),
-        };
+          updateURL();
 
-        const queryString = qs.stringify(queryParams, {
-          encode: false,
-          skipNulls: true,
-        });
+          window.scrollTo(0, 0);
+        } else if (fetchPizzas.rejected.match(resultAction)) {
+          const error = resultAction.error;
 
-        navigate(queryString ? `?${queryString}` : "", { replace: true });
-
-        setTimeout(() => {
-          isUpdatingFromURL.current = false;
-        }, 0);
-
-        setPizzas(response.data);
-        setPizzaError(null);
-        setIsNotFound(false);
-        window.scrollTo(0, 0);
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          setIsNotFound(true);
-          setPizzas([]);
-        } else {
-          setPizzaError(error.message);
+          if (
+            error.code === "ERR_BAD_REQUEST" &&
+            error.message.includes("404")
+          ) {
+            setIsNotFound(true);
+          } else {
+            setPizzaError(error.message || "Произошла ошибка при загрузке");
+          }
+          console.error("Error fetching pizzas:", error);
         }
-        console.error(error);
-      } finally {
-        setLoading(false);
+      } catch (error) {
+        setPizzaError(error.message || "Произошла непредвиденная ошибка");
+        console.error("Unexpected error:", error);
       }
     };
 
-    fetchPizzas();
-  }, [currentValues, limit, navigate, isInitialized]);
+    const updateURL = () => {
+      isUpdatingFromURL.current = true;
 
-  return { pizzas, isPizzasLoading, pizzaError, isNotFound };
+      const queryParams = {
+        ...(currentValues.page !== 1 && { currentPage: currentValues.page }),
+        ...(currentValues.category !== 0 && {
+          category: currentValues.category,
+        }),
+        ...(currentValues.sortType !== "rating" && {
+          sortBy: currentValues.sortType,
+        }),
+        ...(currentValues.sortOrder !== "asc" && {
+          order: currentValues.sortOrder,
+        }),
+        ...(currentValues.searchValue && {
+          search: currentValues.searchValue,
+        }),
+      };
+
+      const queryString = qs.stringify(queryParams, {
+        encode: false,
+        skipNulls: true,
+      });
+
+      navigate(queryString ? `?${queryString}` : "", { replace: true });
+
+      setTimeout(() => {
+        isUpdatingFromURL.current = false;
+      }, 0);
+    };
+
+    loadPizzas();
+  }, [currentValues, limit, navigate, dispatch, isInitialized]);
+
+  const isPizzasLoading = pizzaStatus === "loading";
+
+  return {
+    pizzas,
+    isPizzasLoading,
+    pizzaError,
+    isNotFound,
+  };
 };
