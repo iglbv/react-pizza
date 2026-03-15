@@ -42,9 +42,19 @@ const Home = () => {
       {isPizzasLoading &&
         [...new Array(6)].map((_, index) => <Skeleton key={index} />)}
 
-      {isNotFound && !isPizzasLoading && <h1>😕 Ничего не найдено</h1>}
+      {isNotFound && !isPizzasLoading && (
+        <div className="content__error-info">
+          <h2>Ничего не найдено 😕</h2>
+          <p>К сожалению, по вашему запросу ничего не найдено.</p>
+        </div>
+      )}
 
-      {pizzaError && <h1>Произошла ошибка: {pizzaError}</h1>}
+      {pizzaError && (
+        <div className="content__error-info">
+          <h2>Произошла ошибка:</h2>
+          <h2>{pizzaError}</h2>
+        </div>
+      )}
 
       <div className="content__items">
         {pizzas.map((pizza) => (

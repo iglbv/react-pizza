@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectPizzaCatalog,
   selectPizzaStatus,
+  selectPizzaIsNotFound,
+  selectPizzaError,
 } from "../redux/slices/pizzaSlice";
 import { usePizzaFilters } from "./usePizzaFilters";
 import { usePizzaLoader } from "./usePizzaLoader";
@@ -19,13 +21,13 @@ export const usePizzas = (
 ) => {
   const pizzas = useSelector(selectPizzaCatalog);
   const pizzaStatus = useSelector(selectPizzaStatus);
+  const isNotFound = useSelector(selectPizzaIsNotFound);
+  const pizzaError = useSelector(selectPizzaError);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const [isNotFound, setIsNotFound] = useState(false);
-  const [pizzaError, setPizzaError] = useState(null);
   const isUpdatingFromURL = useRef(false);
 
   const { currentValues, isInitialized } = usePizzaFilters(
@@ -43,8 +45,6 @@ export const usePizzas = (
     currentValues,
     limit,
     dispatch,
-    setIsNotFound,
-    setPizzaError,
     updateURL,
   );
 
